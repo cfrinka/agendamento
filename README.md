@@ -1,8 +1,6 @@
-# 🏥 Sistema de Agendamento Médico
+# 🏥 Clinix - Sistema de Gestão de Consultas
 
-**Sistema de agendamento de consultas em tempo real para clínicas privadas brasileiras**
-
-[![Firebase](https://img.shields.io/badge/Firebase-10.7-orange.svg)](https://firebase.google.com/)
+Sistema de agendamento médico em tempo real para clínicas privadas brasileiras, com foco em gestão de janelas de agendamento, notificações automáticas e conformidade com LGPD.svg)](https://firebase.google.com/)
 [![Next.js](https://img.shields.io/badge/Next.js-16.1-black.svg)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg)](https://www.typescriptlang.org/)
 [![License](https://img.shields.io/badge/License-Proprietary-red.svg)]()

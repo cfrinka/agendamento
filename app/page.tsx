@@ -8,7 +8,6 @@ import { auth } from '@/lib/firebase';
 import Link from 'next/link';
 import { Calendar, Users, Stethoscope, FileText, Settings, LogOut, Database, CheckCircle, XCircle, Loader2, UserPlus, Wrench } from 'lucide-react';
 import { demoDataService } from '@/lib/services/demoDataService';
-import { createSampleUsers } from '@/lib/createSampleUsers';
 import { fixPatientProfile } from '@/lib/fixPatientProfile';
 import { AppHeader } from '@/components/shared/AppHeader';
 
@@ -52,29 +51,6 @@ export default function Home() {
       setDemoResult({ success: false, error: error.message });
     } finally {
       setDemoLoading(false);
-    }
-  };
-
-  const handleCreateSampleUsers = async () => {
-    if (!user?.clinicId) {
-      alert('Você precisa estar associado a uma clínica primeiro!');
-      return;
-    }
-
-    if (!confirm('Isso criará 4 usuários de exemplo:\n\n- admin@admin.com\n- secretary@secretary.com\n- doctor@doctor.com\n- patient@patient.com\n\nSenha para todos: Testp@ss123\n\nContinuar?')) {
-      return;
-    }
-
-    setSampleUsersLoading(true);
-    setSampleUsersResult(null);
-
-    try {
-      const results = await createSampleUsers(user.clinicId);
-      setSampleUsersResult(results);
-    } catch (error: any) {
-      setSampleUsersResult({ success: false, error: error.message });
-    } finally {
-      setSampleUsersLoading(false);
     }
   };
 

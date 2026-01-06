@@ -5,46 +5,44 @@ import { useRouter } from 'next/navigation';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import Link from 'next/link';
+import { toast } from 'sonner';
 
 export default function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const router = useRouter();
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        setError('');
         setLoading(true);
 
         try {
             await signInWithEmailAndPassword(auth, email, password);
+            toast.success('Login realizado com sucesso!');
             router.push('/');
         } catch (err: any) {
             console.error('Login error:', err);
-            setError(getErrorMessage(err.code));
+            toast.error(getErrorMessage(err.code));
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+        <div className="min-h-screen bg-gradient-to-br from-cyan-50 to-teal-100 flex items-center justify-center p-4">
             <div className="max-w-md w-full">
                 <div className="bg-white rounded-2xl shadow-xl p-8">
                     <div className="text-center mb-8">
-                        <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                            🏥 Agendamento Médico
-                        </h1>
+                        <div className="flex justify-center mb-4">
+                            <img
+                                src="/assets/logo.png"
+                                alt="Clinix"
+                                className="h-16 w-auto"
+                            />
+                        </div>
                         <p className="text-gray-600">Entre com suas credenciais</p>
                     </div>
-
-                    {error && (
-                        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-                            <p className="text-sm text-red-600">{error}</p>
-                        </div>
-                    )}
 
                     <form onSubmit={handleLogin} className="space-y-6">
                         <div>
@@ -57,7 +55,7 @@ export default function LoginPage() {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder:text-gray-400"
+                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent text-gray-900 placeholder:text-gray-400"
                                 placeholder="seu@email.com"
                             />
                         </div>
@@ -72,7 +70,7 @@ export default function LoginPage() {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder:text-gray-400"
+                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent text-gray-900 placeholder:text-gray-400"
                                 placeholder="••••••••"
                             />
                         </div>
@@ -80,21 +78,21 @@ export default function LoginPage() {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+                            className="w-full bg-gradient-to-r from-cyan-600 to-teal-600 text-white py-3 rounded-lg font-medium hover:from-cyan-700 hover:to-teal-700 transition-all disabled:bg-gray-400 disabled:cursor-not-allowed shadow-lg"
                         >
                             {loading ? 'Entrando...' : 'Entrar'}
                         </button>
                     </form>
 
                     <div className="mt-6 text-center">
-                        <Link href="/register" className="text-sm text-blue-600 hover:text-blue-700">
+                        <Link href="/register" className="text-sm text-cyan-600 hover:text-cyan-700 font-medium">
                             Não tem uma conta? Cadastre-se
                         </Link>
                     </div>
 
                     <div className="mt-8 pt-6 border-t border-gray-200">
                         <p className="text-xs text-gray-500 text-center">
-                            Sistema de Agendamento para Clínicas Privadas
+                            Clinix - Sistema de Gestão de Consultas
                         </p>
                     </div>
                 </div>

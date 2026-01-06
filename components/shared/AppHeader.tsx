@@ -4,15 +4,14 @@ import { useAuth } from '@/components/AuthProvider';
 import { signOut } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
-import { LogOut, UserPlus, Wrench, Loader2 } from 'lucide-react';
+import { LogOut, Wrench, Loader2 } from 'lucide-react';
 import { useState } from 'react';
-import { createSampleUsers } from '@/lib/createSampleUsers';
 import { fixPatientProfile } from '@/lib/fixPatientProfile';
+import { toast } from 'sonner';
 
 export function AppHeader() {
     const { user } = useAuth();
     const router = useRouter();
-    const [sampleUsersLoading, setSampleUsersLoading] = useState(false);
     const [fixingPatient, setFixingPatient] = useState(false);
 
     const handleLogout = async () => {
@@ -20,30 +19,9 @@ export function AppHeader() {
         router.push('/login');
     };
 
-    const handleCreateSampleUsers = async () => {
-        if (!user?.clinicId) {
-            alert('Você precisa estar associado a uma clínica primeiro!');
-            return;
-        }
-
-        if (!confirm('Isso criará 4 usuários de exemplo:\n\n- admin@admin.com\n- secretary@secretary.com\n- doctor@doctor.com\n- patient@patient.com\n\nSenha para todos: Testp@ss123\n\nContinuar?')) {
-            return;
-        }
-
-        setSampleUsersLoading(true);
-
-        try {
-            await createSampleUsers(user.clinicId);
-        } catch (error: any) {
-            alert(`Erro: ${error.message}`);
-        } finally {
-            setSampleUsersLoading(false);
-        }
-    };
-
     const handleFixPatientProfile = async () => {
         if (!user?.id || !user?.clinicId || !user?.email || !user?.name) {
-            alert('Dados do usuário incompletos');
+            toast.error('Dados do usuário incompletos');
             return;
         }
 
@@ -56,15 +34,15 @@ export function AppHeader() {
         try {
             const result = await fixPatientProfile(user.id, user.clinicId, user.email, user.name);
             if (result.success) {
-                alert(`Perfil de paciente criado com sucesso!\n\nPatient ID: ${result.patientId}\n\nRecarregando página...`);
+                toast.success(`Perfil de paciente criado com sucesso! ID: ${result.patientId}`);
                 setTimeout(() => {
                     window.location.reload();
-                }, 1000);
+                }, 1500);
             } else {
-                alert(`Erro: ${result.error}`);
+                toast.error(`Erro: ${result.error}`);
             }
         } catch (error: any) {
-            alert(`Erro ao corrigir perfil: ${error.message}`);
+            toast.error(`Erro ao corrigir perfil: ${error.message}`);
         } finally {
             setFixingPatient(false);
         }
@@ -83,18 +61,17 @@ export function AppHeader() {
     if (!user) return null;
 
     return (
-        <header className="bg-gradient-to-r from-blue-600 to-blue-700 shadow-lg">
+        <header className="bg-gradient-to-r from-cyan-600 to-teal-600 shadow-lg">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center py-5">
                     <div className="flex items-center gap-4">
-                        <div className="bg-white/10 backdrop-blur-sm p-3 rounded-xl">
-                            <span className="text-3xl">🏥</span>
-                        </div>
+                        <img
+                            src="/assets/logo.png"
+                            alt="Clinix"
+                            className="h-12 w-auto"
+                        />
                         <div>
-                            <h1 className="text-2xl font-bold text-white">
-                                Agendamento Médico
-                            </h1>
-                            <p className="text-md text-blue-100 font-semibold">
+                            <p className="text-md text-cyan-100 font-semibold">
                                 Bem-vindo(a), <span className="font-bold">{user.name}</span>
                             </p>
                         </div>
@@ -117,23 +94,9 @@ export function AppHeader() {
                                 Corrigir Perfil
                             </button>
                         )}
-                        {user.role === 'admin' && (
-                            <button
-                                onClick={handleCreateSampleUsers}
-                                disabled={sampleUsersLoading}
-                                className="flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-sm text-white hover:bg-white/30 rounded-lg transition-all border border-white/30 disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                                {sampleUsersLoading ? (
-                                    <Loader2 className="w-4 h-4 animate-spin" />
-                                ) : (
-                                    <UserPlus className="w-4 h-4" />
-                                )}
-                                Criar Usuários Exemplo
-                            </button>
-                        )}
                         <button
                             onClick={handleLogout}
-                            className="flex items-center gap-2 px-4 py-2 bg-white text-blue-600 hover:bg-blue-50 rounded-lg transition-all font-medium shadow-sm"
+                            className="flex items-center gap-2 px-4 py-2 bg-white text-cyan-600 hover:bg-cyan-50 rounded-lg transition-all font-medium shadow-sm"
                         >
                             <LogOut className="w-4 h-4" />
                             Sair
