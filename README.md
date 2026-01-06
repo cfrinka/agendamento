@@ -340,20 +340,20 @@ npm run test:coverage
 - Conformidade LGPD
 - Logs de auditoria
 
-### Fase 2 - Q2 2025
+### Fase 2 - Q2 2026
 - Integração com bot WhatsApp
 - Fallback SMS
 - Relatórios avançados
 - Portal do paciente
 - Auto-serviço do médico
 
-### Fase 3 - Q3 2025
+### Fase 3 - Q3 2026
 - Apps mobile (iOS/Android)
 - Consultas recorrentes
 - Lista de espera
 - Integração telemedicina
 
-### Fase 4 - Q4 2025
+### Fase 4 - Q4 2026
 - Gestão multi-clínica
 - Suporte a franquias
 - Analytics avançado
