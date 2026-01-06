@@ -1,0 +1,404 @@
+================================================================================
+                    SISTEMA DE AGENDAMENTO - FUNCIONALIDADES
+================================================================================
+
+Última atualização: Janeiro 2026
+
+================================================================================
+1. AUTENTICAÇÃO E CONTROLE DE ACESSO
+================================================================================
+
+✓ Sistema de Login
+  - Login com email e senha
+  - Autenticação via Firebase Authentication
+  - Sessão persistente
+
+✓ Controle de Acesso por Perfil (RBAC)
+  - Admin: Acesso total ao sistema
+  - Secretary (Secretária): Gerenciamento de pacientes, médicos e agendamentos
+  - Doctor (Médico): Visualização de agendamentos e pacientes
+  - Patient (Paciente): Visualização de próprios agendamentos
+
+✓ Proteção de Rotas
+  - Redirecionamento automático baseado em permissões
+  - Páginas protegidas por role
+
+================================================================================
+2. GERENCIAMENTO DE PACIENTES
+================================================================================
+
+✓ Listagem de Pacientes
+  - Visualização em cards com informações principais
+  - Busca por nome ou telefone
+  - Filtro por clínica
+  - Indicador de status (Ativo/Inativo)
+  - Loading states e empty states
+
+✓ Cadastro de Pacientes
+  - Nome completo
+  - Telefone (obrigatório)
+  - Email
+  - CPF
+  - Endereço completo com busca automática por CEP:
+    * CEP com integração à API ViaCEP
+    * Logradouro (preenchimento automático)
+    * Número
+    * Complemento
+    * Bairro (preenchimento automático)
+    * Cidade (preenchimento automático)
+    * Estado (preenchimento automático)
+  - Consentimento LGPD automático
+  - Permissões: Admin e Secretary
+
+✓ Edição de Pacientes
+  - Atualização de todos os dados cadastrais
+  - Atualização de endereço com busca por CEP
+  - Toggle de status ativo/inativo
+  - Permissões: Admin e Secretary
+
+✓ Exclusão de Pacientes
+  - Confirmação antes de excluir
+  - Permissões: Admin e Secretary
+
+✓ Visualização de Detalhes
+  - Informações completas do paciente
+  - Endereço formatado
+  - Status visual com badges
+
+================================================================================
+3. GERENCIAMENTO DE MÉDICOS
+================================================================================
+
+✓ Listagem de Médicos
+  - Visualização em cards com avatar colorido
+  - Busca por nome ou CRM
+  - Filtro por clínica
+  - Indicador de status (Ativo/Inativo)
+  - Badges de especialidades
+
+✓ Cadastro de Médicos
+  - Nome completo
+  - CRM (obrigatório)
+  - Especialidades (múltiplas, separadas por vírgula)
+  - Telefone
+  - Email
+  - Cor do avatar (seletor de cor)
+  - Endereço completo com busca automática por CEP:
+    * CEP com integração à API ViaCEP
+    * Logradouro (preenchimento automático)
+    * Número
+    * Complemento (Sala, Andar, etc.)
+    * Bairro (preenchimento automático)
+    * Cidade (preenchimento automático)
+    * Estado (preenchimento automático)
+  - Permissões: Admin apenas
+
+✓ Edição de Médicos
+  - Atualização de todos os dados cadastrais
+  - Atualização de endereço com busca por CEP
+  - Modificação de especialidades
+  - Alteração de cor do avatar
+  - Toggle de status ativo/inativo
+  - Permissões: Admin apenas
+
+✓ Exclusão de Médicos
+  - Confirmação antes de excluir
+  - Permissões: Admin apenas
+
+✓ Visualização de Detalhes
+  - Avatar colorido personalizado
+  - Informações completas do médico
+  - Endereço formatado
+  - Lista de especialidades com badges
+  - Status visual
+
+================================================================================
+4. GERENCIAMENTO DE AGENDAMENTOS
+================================================================================
+
+✓ Listagem de Agendamentos
+  - Visualização em cards organizados
+  - Filtro por data
+  - Informações de paciente, médico e horário
+  - Status visual com badges coloridos
+  - Ordenação por data/hora
+  - Filtro por clínica
+
+✓ Criação de Agendamentos
+  - Seleção de paciente (dropdown)
+  - Seleção de médico (dropdown)
+  - Seleção de data e hora
+  - Campo de observações
+  - Status inicial: "Agendado"
+  - Validações de campos obrigatórios
+  - Permissões: Admin, Secretary e Doctor
+
+✓ Gerenciamento de Status
+  - Workflow de status:
+    * Agendado → Confirmado → Realizado
+    * Agendado → Confirmado → No-Show
+    * Agendado/Confirmado → Cancelado
+  - Botões contextuais baseados no status atual
+  - Confirmação antes de cancelar
+  - Registro de data/hora de cancelamento
+  - Registro de quem cancelou
+  - Permissões: Admin, Secretary e Doctor
+
+✓ Visualização de Detalhes
+  - Modal com informações completas
+  - Data e hora formatadas
+  - Nome do paciente
+  - Nome do médico
+  - Status atual
+  - Observações (se houver)
+  - Botões de mudança de status (conforme permissões)
+
+================================================================================
+5. CALENDÁRIO
+================================================================================
+
+✓ Visualização em Dia
+  - Lista de agendamentos do dia selecionado
+  - Horários formatados
+  - Informações de paciente e médico
+  - Cores por médico
+  - Status visual
+  - Click para ver detalhes
+
+✓ Visualização em Semana
+  - Grid de 7 dias (Domingo a Sábado)
+  - Agendamentos por dia
+  - Navegação entre semanas
+  - Click no dia para ver detalhes (muda para visão de dia)
+  - Click no agendamento para ver modal de detalhes
+  - Destaque do dia atual
+  - Cores por médico
+
+✓ Visualização em Mês
+  - Grid de calendário mensal completo
+  - Contador de agendamentos por dia
+  - Navegação entre meses
+  - Click no dia para ver semana
+  - Destaque do dia atual
+  - Indicador visual de dias com agendamentos
+
+✓ Navegação entre Visualizações
+  - Botões para alternar entre Dia/Semana/Mês
+  - Navegação temporal (anterior/próximo)
+  - Botão "Hoje" para voltar à data atual
+  - Transição suave entre visualizações
+
+✓ Modal de Detalhes do Agendamento
+  - Abre ao clicar em qualquer agendamento
+  - Usa Dialog do shadcn/ui
+  - Exibe todas as informações
+  - Permite mudança de status
+  - Fecha automaticamente após ação
+  - Acessibilidade completa (ESC, click fora, etc.)
+
+✓ Filtros e Dados em Tempo Real
+  - Atualização automática via Firestore listeners
+  - Filtro por clínica do usuário
+  - Carregamento de médicos e pacientes para exibição
+
+================================================================================
+6. INTEGRAÇÃO COM API VIACEP
+================================================================================
+
+✓ Busca Automática de Endereço
+  - Integração com API ViaCEP (https://viacep.com.br)
+  - Busca automática ao digitar 8 dígitos do CEP
+  - Preenchimento automático de:
+    * Logradouro (rua/avenida)
+    * Bairro
+    * Cidade
+    * Estado
+    * Complemento (quando disponível)
+  - Indicador visual de loading durante busca
+  - Tratamento de erros (CEP não encontrado)
+  - Preservação de dados existentes ao buscar novo CEP
+  - Disponível em:
+    * Cadastro de pacientes
+    * Edição de pacientes
+    * Cadastro de médicos
+    * Edição de médicos
+
+================================================================================
+7. INTERFACE E UX
+================================================================================
+
+✓ Design System
+  - shadcn/ui components
+  - TailwindCSS para estilização
+  - Lucide React para ícones
+  - Tema consistente em todo o app
+
+✓ Componentes Compartilhados
+  - PageHeader: Cabeçalho de páginas com título, descrição e ações
+  - SearchBar: Barra de busca reutilizável
+  - LoadingState: Estado de carregamento padronizado
+  - EmptyState: Estado vazio com ícone e mensagem
+  - Cards: Cards informativos e interativos
+  - Badges: Indicadores visuais de status
+  - Buttons: Botões com variantes e estados
+  - Inputs: Campos de formulário estilizados
+  - Dialog: Modais acessíveis
+
+✓ Responsividade
+  - Layout adaptável para mobile, tablet e desktop
+  - Grid responsivo (1 coluna mobile, 2-3 colunas desktop)
+  - Navegação otimizada para touch
+  - Formulários responsivos
+
+✓ Estados da Aplicação
+  - Loading states com spinners
+  - Empty states com ilustrações e mensagens
+  - Error handling com alertas
+  - Confirmações antes de ações destrutivas
+  - Feedback visual de ações
+
+✓ Acessibilidade
+  - Labels em todos os campos
+  - ARIA attributes
+  - Navegação por teclado
+  - Contraste adequado
+  - Foco visível
+
+================================================================================
+8. TECNOLOGIAS E ARQUITETURA
+================================================================================
+
+✓ Frontend
+  - Next.js 14 (App Router)
+  - React 18
+  - TypeScript
+  - TailwindCSS
+  - shadcn/ui
+  - Lucide React (ícones)
+
+✓ Backend/Database
+  - Firebase Firestore (banco de dados NoSQL)
+  - Firebase Authentication
+  - Real-time listeners (onSnapshot)
+  - Queries com filtros e ordenação
+
+✓ Bibliotecas Auxiliares
+  - date-fns: Manipulação de datas
+  - date-fns/locale/pt-BR: Localização em português
+
+✓ Estrutura de Dados
+  - Coleções Firestore:
+    * users (usuários do sistema)
+    * patients (pacientes)
+    * doctors (médicos)
+    * appointments (agendamentos)
+    * clinics (clínicas)
+  
+  - Relacionamentos:
+    * Todos os registros vinculados a clinicId
+    * Agendamentos vinculam patientId e doctorId
+    * Usuários vinculados a clinicId
+
+✓ Padrões de Código
+  - Client Components ('use client')
+  - Server Components (quando aplicável)
+  - Custom hooks (useAuth)
+  - Context API para autenticação
+  - Componentes reutilizáveis
+
+================================================================================
+9. FUNCIONALIDADES DE SEGURANÇA
+================================================================================
+
+✓ Autenticação
+  - Firebase Authentication
+  - Sessão persistente
+  - Logout seguro
+
+✓ Autorização
+  - Role-Based Access Control (RBAC)
+  - Verificação de permissões em cada ação
+  - Proteção de rotas no frontend
+  - Validação de clinicId em queries
+
+✓ Privacidade (LGPD)
+  - Consentimento de armazenamento de dados
+  - Consentimento para notificações WhatsApp
+  - Registro de data de consentimento
+
+================================================================================
+10. MELHORIAS E OTIMIZAÇÕES
+================================================================================
+
+✓ Performance
+  - Real-time updates com Firestore listeners
+  - Lazy loading de componentes
+  - Otimização de queries
+  - Caching de dados
+
+✓ UX
+  - Feedback imediato de ações
+  - Loading states em todas as operações
+  - Mensagens de erro claras
+  - Confirmações antes de ações críticas
+  - Navegação intuitiva
+
+✓ Manutenibilidade
+  - Código modular e reutilizável
+  - Componentes compartilhados
+  - Tipagem TypeScript
+  - Estrutura de pastas organizada
+
+================================================================================
+11. FUNCIONALIDADES PENDENTES / ROADMAP
+================================================================================
+
+⏳ Gerenciamento de Clínicas
+  - Cadastro de clínicas
+  - Edição de clínicas
+  - Endereço com busca por CEP
+
+✓ Confirmação Inteligente de Consultas
+  - Envio automático de confirmação via WhatsApp (48h antes)
+  - Processamento de respostas (SIM/NÃO)
+  - Status: Agendado, Confirmado, Aguardando Confirmação
+  - Alertas visuais para consultas não confirmadas
+  - Confirmação manual por Admin/Secretary
+  - Registro de timestamps (confirmationRequestedAt, confirmedAt)
+  - Integração com Twilio WhatsApp Business API
+  - Cloud Functions para automação
+
+✓ Lista de Espera (Waitlist)
+  - Fila FIFO (First In, First Out)
+  - Adicionar pacientes à lista com preferências:
+    * Especialidade
+    * Médico preferido (opcional)
+    * Período de datas preferido
+  - Oferta automática de horários cancelados
+  - Compatibilidade inteligente (especialidade, médico, data)
+  - Tempo limite de 15 minutos para resposta
+  - Status: Aguardando, Oferta Ativa, Aceito, Expirado
+  - Indicadores visuais de posição na fila
+  - Notificação via WhatsApp
+  - Processamento automático via Cloud Functions
+  - Histórico de ofertas aceitas/expiradas
+
+⏳ Relatórios
+  - Relatório de agendamentos
+  - Relatório de pacientes
+  - Relatório de médicos
+  - Estatísticas e dashboards
+
+⏳ Configurações
+  - Horários de funcionamento
+  - Duração padrão de consultas
+  - Configurações de notificações
+
+⏳ Prontuário Eletrônico
+  - Histórico de consultas
+  - Anotações médicas
+  - Anexos e documentos
+
+================================================================================
+FIM DO DOCUMENTO
+================================================================================
